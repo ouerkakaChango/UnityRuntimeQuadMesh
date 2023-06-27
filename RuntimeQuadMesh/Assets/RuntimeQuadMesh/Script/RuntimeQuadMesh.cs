@@ -10,19 +10,20 @@ public class RuntimeQuadMesh : MonoBehaviour
     int[] tris = new int[3 * 2];
     Vector3[] normals = new Vector3[4];
     Mesh mesh;
+    bool inited = false;
     // Start is called before the first frame update
     void Start()
     {
-        mesh = new Mesh();
-        InitDefaultQuad();
+        if (!inited)
+        {
+            Init();
+        }
 
         //test
-        Vector3[] tt = new Vector3[4];
-        tt[0] = new Vector3(1, -0.5f, 0);
-        tt[1] = new Vector3(2.5f, 0.5f, 0);
-        tt[2] = new Vector3(3, 2, 0);
-        tt[3] = new Vector3(1, 2, 0);
-        SetWorldVerts(tt);
+        SetWorldVerts(new Vector3(1, 1, 0),
+            new Vector3(2, 1, 0),
+            new Vector3(2, 2.5f, 0),
+            new Vector3(1, 2, 0));
     }
 
     // Update is called once per frame
@@ -33,8 +34,9 @@ public class RuntimeQuadMesh : MonoBehaviour
 
     //####################################################
     //逆时针，但生成mesh.tri的时候，按Unity Mesh顺时针
-    void InitDefaultQuad()
+    void Init()
     {
+        mesh = new Mesh();
         verts[0] = new Vector3(-0.5f, -0.5f, 0);
         verts[1] = new Vector3(0.5f, -0.5f, 0);
         verts[2] = new Vector3(0.5f, 0.5f, 0);
@@ -56,16 +58,16 @@ public class RuntimeQuadMesh : MonoBehaviour
         mesh.triangles = tris;
 
         UpdateNormal();
-        UpdateToMeshFiliter();
-    }
 
-    //void UpdateMesh()
-    //{
-    //    //mesh.vertices = ;
-    //    //mesh.uv = ;
-    //    //mesh.triangles = ;
-    //    //mesh.normals = ;
-    //}
+        var mf = GetComponent<MeshFilter>();
+        if(mf == null)
+        {
+            mf = gameObject.AddComponent<MeshFilter>();
+        }
+        mf.mesh = mesh;
+
+        inited = true;
+    }
 
     //允许2个三角形不共面。交点vert0,vert2处法线为0.5f*(n1+n2)
     void UpdateNormal()
@@ -82,14 +84,12 @@ public class RuntimeQuadMesh : MonoBehaviour
         mesh.normals = normals;
     }
 
-    void UpdateToMeshFiliter()
+    public void SetWorldVerts(Vector3[] wVerts)
     {
-        var mf = GetComponent<MeshFilter>();
-        mf.mesh = mesh;
-    }
-
-    void SetWorldVerts(Vector3[] wVerts)
-    {
+        if(!inited)
+        {
+            Init();
+        }
         var center = 0.25f * (wVerts[0] + wVerts[1] + wVerts[2] + wVerts[3]);
         transform.position = center;
         verts[0] = wVerts[0] - center;
@@ -99,10 +99,19 @@ public class RuntimeQuadMesh : MonoBehaviour
         UpdateVertsMesh();
     }
 
+    public void SetWorldVerts(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 v3)
+    {
+        Vector3[] tt = new Vector3[4];
+        tt[0] = v0;
+        tt[1] = v1;
+        tt[2] = v2;
+        tt[3] = v3;
+        SetWorldVerts(tt);
+    }
+
     void UpdateVertsMesh()
     {
         mesh.vertices = verts;
         UpdateNormal();
-        UpdateToMeshFiliter();
     }
 }

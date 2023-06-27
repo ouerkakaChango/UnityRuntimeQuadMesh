@@ -398,7 +398,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1914980419}
   - component: {fileID: 1914980418}
-  - component: {fileID: 1914980417}
   - component: {fileID: 1914980416}
   m_Layer: 0
   m_Name: SingleQuadMesh
@@ -406,7 +405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &1914980416
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -449,14 +448,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1914980417
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914980415}
-  m_Mesh: {fileID: 0}
 --- !u!114 &1914980418
 MonoBehaviour:
   m_ObjectHideFlags: 0

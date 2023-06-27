@@ -87,6 +87,5 @@ public class RuntimeQuadListMesh : MonoBehaviour
         mesh.uv = uvs.ToArray();
         mesh.triangles = tris.ToArray();
         mesh.normals = normals.ToArray();
-        mf.mesh = mesh;
     }
 }
