@@ -53,6 +53,10 @@ public class RuntimeQuadListMesh : MonoBehaviour
 
     public void AddQuadRaw(Vector3 v0,Vector3 v1, Vector3 v2, Vector3 v3)
     {
+        if(!inited)
+        {
+            Init();
+        }
         int inx0 = verts.Count;
         verts.Add(v0);
         verts.Add(v1);
